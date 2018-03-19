@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Administrator\.Rider2017.3\system\resharper-host\local\Transient\ReSharperHost\v11\SolutionCaches\_DetailPage.-1363502898.00" t="ExcludeRecursive" />
+    <e p="D:\test\aspnetcore\detailpage\detailpage" t="IncludeRecursive">
+      <e p=".gitignore" t="Include" />
+      <e p="appsettings.Development.json" t="Include" />
+      <e p="appsettings.json" t="Include" />
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="ClientApp" t="Include">
+        <e p="boot.ts" t="Include" />
+        <e p="components" t="Include">
+          <e p="app" t="Include">
+            <e p="app.ts" t="Include" />
+            <e p="app.vue.html" t="Include" />
+          </e>
+          <e p="counter" t="Include">
+            <e p="counter.ts" t="Include" />
+            <e p="counter.vue.html" t="Include" />
+          </e>
+          <e p="fetchdata" t="Include">
+            <e p="fetchdata.ts" t="Include" />
+            <e p="fetchdata.vue.html" t="Include" />
+          </e>
+          <e p="home" t="Include">
+            <e p="home.vue.html" t="Include" />
+          </e>
+          <e p="navmenu" t="Include">
+            <e p="navmenu.css" t="Include" />
+            <e p="navmenu.vue.html" t="Include" />
+          </e>
+        </e>
+        <e p="css" t="Include">
+          <e p="site.css" t="Include" />
+        </e>
+      </e>
+      <e p="Controllers" t="Include">
+        <e p="HomeController.cs" t="Include" />
+        <e p="SampleDataController.cs" t="Include" />
+      </e>
+      <e p="DetailPage.csproj" t="IncludeRecursive" />
+      <e p="DetailPage.sln" t="IncludeFlat" />
+      <e p="Models" t="Include">
+        <e p="DetailPageModel.cs" t="Include" />
+      </e>
+      <e p="npm-shrinkwrap.json" t="Include" />
+      <e p="obj" t="ExcludeRecursive">
+        <e p="Debug" t="Include">
+          <e p="netcoreapp2.0" t="Include">
+            <e p="DetailPage.AssemblyInfo.cs" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="package.json" t="Include" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Program.cs" t="Include" />
+      <e p="Startup.cs" t="Include" />
+      <e p="tsconfig.json" t="Include" />
+      <e p="Views" t="Include">
+        <e p="_ViewImports.cshtml" t="Include" />
+        <e p="_ViewStart.cshtml" t="Include" />
+        <e p="home" t="Include">
+          <e p="Index.cshtml" t="Include" />
+        </e>
+        <e p="Shared" t="Include">
+          <e p="_Layout.cshtml" t="Include" />
+          <e p="Error.cshtml" t="Include" />
+        </e>
+      </e>
+      <e p="webpack.config.js" t="Include" />
+      <e p="webpack.config.vendor.js" t="Include" />
+      <e p="wwwroot" t="Include">
+        <e p="dist" t="Include">
+          <e p="89889688147bd7575d6327160d64e760.svg" t="Include" />
+          <e p="main.js" t="Include" />
+          <e p="main.js.map" t="Include" />
+          <e p="vendor-manifest.json" t="Include" />
+          <e p="vendor.css" t="Include" />
+          <e p="vendor.js" t="Include" />
+        </e>
+        <e p="favicon.ico" t="Include" />
+      </e>
+    </e>
+  </component>
+</project>
