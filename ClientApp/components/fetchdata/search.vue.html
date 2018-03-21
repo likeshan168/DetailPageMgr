@@ -1,0 +1,15 @@
+<template>
+    <Form ref="formInline" :model="formInline" inline>
+        <FormItem prop="searchWords">
+            <Input type="text" v-model="formInline.searchWords" placeholder="请输入查询条件">
+            <Icon type="search" slot="prepend"></Icon>
+            </Input>
+        </FormItem>
+
+        <FormItem>
+            <Button type="primary">查询</Button>
+        </FormItem>
+    </Form>
+</template>
+
+<script src="./search.ts"></script> 

@@ -1,0 +1,30 @@
+<template>
+    <Modal
+            v-model="showDialog"
+            title="新增" @on-visible-change="onVisibleChange">
+     
+        <Form ref="detailPage" :model="detailPage" :label-width="80" :rules="ruleValidate">
+            <FormItem label="名称" prop="name">
+                <Input v-model="detailPage.name" placeholder="请输入名称"/>
+            </FormItem>
+            <FormItem label="商品编码" prop="productNo">
+                <Input v-model="detailPage.productNo" placeholder="请输入商品编码"/>
+            </FormItem>
+            <FormItem label="商品描述" prop="htmlContent">
+                <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" v-model="detailPage.htmlContent"
+                       placeholder="请输入内容"/>
+            </FormItem>
+            <FormItem label="备注" prop="remark">
+                <Input v-model="detailPage.remark" type="textarea" :autosize="{minRows: 2,maxRows: 5}"
+                       placeholder="备注内容"/>
+            </FormItem>
+        </Form>
+
+        <div slot="footer">
+            <Button type="default"  @click="cancel">取消</Button>
+            <Button type="primary" :loading="isLoading" @click="ok('detailPage')">确定</Button>
+        </div>
+    </Modal>
+</template>
+
+<script src="./newForm.ts"></script> 

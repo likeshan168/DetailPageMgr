@@ -21,11 +21,17 @@
           <e p="fetchdata" t="Include">
             <e p="fetchdata.ts" t="Include" />
             <e p="fetchdata.vue.html" t="Include" />
+            <e p="newForm.ts" t="Include" />
+            <e p="newForm.vue.html" t="Include" />
+            <e p="search.ts" t="Include" />
+            <e p="search.vue.html" t="Include" />
           </e>
           <e p="home" t="Include">
             <e p="home.vue.html" t="Include" />
           </e>
           <e p="navmenu" t="Include">
+            <e p="mymenu.css" t="Include" />
+            <e p="mymenu.vue.html" t="Include" />
             <e p="navmenu.css" t="Include" />
             <e p="navmenu.vue.html" t="Include" />
           </e>
@@ -33,15 +39,33 @@
         <e p="css" t="Include">
           <e p="site.css" t="Include" />
         </e>
+        <e p="Models" t="Include">
+          <e p="DetailPage.ts" t="Include" />
+          <e p="ResponseResult.ts" t="Include" />
+        </e>
       </e>
       <e p="Controllers" t="Include">
+        <e p="DetailPageDataController.cs" t="Include" />
         <e p="HomeController.cs" t="Include" />
         <e p="SampleDataController.cs" t="Include" />
       </e>
       <e p="DetailPage.csproj" t="IncludeRecursive" />
       <e p="DetailPage.sln" t="IncludeFlat" />
+      <e p="Migrations" t="Include">
+        <e p="20180319155210_initalcreate.cs" t="Include" />
+        <e p="20180319155210_initalcreate.Designer.cs" t="Include" />
+        <e p="20180320083705_addHtmlContentColumn.cs" t="Include" />
+        <e p="20180320083705_addHtmlContentColumn.Designer.cs" t="Include" />
+        <e p="20180320084757_changeColumnLength.cs" t="Include" />
+        <e p="20180320084757_changeColumnLength.Designer.cs" t="Include" />
+        <e p="20180321101042_addProductNoColumn.cs" t="Include" />
+        <e p="20180321101042_addProductNoColumn.Designer.cs" t="Include" />
+        <e p="DetailPageContextModelSnapshot.cs" t="Include" />
+      </e>
       <e p="Models" t="Include">
+        <e p="DetailPageContext.cs" t="Include" />
         <e p="DetailPageModel.cs" t="Include" />
+        <e p="ResponseResultViewModel.cs" t="Include" />
       </e>
       <e p="npm-shrinkwrap.json" t="Include" />
       <e p="obj" t="ExcludeRecursive">
@@ -54,8 +78,15 @@
       <e p="package.json" t="Include" />
       <e p="packages" t="ExcludeRecursive" />
       <e p="Program.cs" t="Include" />
+      <e p="Properties" t="Include">
+        <e p="launchSettings.json" t="Include" />
+      </e>
+      <e p="README.md" t="Include" />
       <e p="Startup.cs" t="Include" />
       <e p="tsconfig.json" t="Include" />
+      <e p="types" t="Include">
+        <e p="declaration.d.ts" t="Include" />
+      </e>
       <e p="Views" t="Include">
         <e p="_ViewImports.cshtml" t="Include" />
         <e p="_ViewStart.cshtml" t="Include" />
@@ -71,6 +102,10 @@
       <e p="webpack.config.vendor.js" t="Include" />
       <e p="wwwroot" t="Include">
         <e p="dist" t="Include">
+          <e p="05acfdb568b3df49ad31355b19495d4a.woff" t="Include" />
+          <e p="24712f6c47821394fba7942fbb52c3b2.ttf" t="Include" />
+          <e p="2c2ae068be3b089e0a5b59abb1831550.eot" t="Include" />
+          <e p="621bd386841f74e0053cb8e67f8a0604.svg" t="Include" />
           <e p="89889688147bd7575d6327160d64e760.svg" t="Include" />
           <e p="main.js" t="Include" />
           <e p="main.js.map" t="Include" />

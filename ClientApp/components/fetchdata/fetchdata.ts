@@ -1,22 +1,64 @@
 import Vue from 'vue';
-import { Component } from 'vue-property-decorator';
+import {Component} from 'vue-property-decorator';
+import {mapActions} from 'vuex';
+import {DetailPage} from "../../models/DetailPage";
 
-interface WeatherForecast {
-    dateFormatted: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
-}
 
-@Component
+
+
+@Component({
+    components: {
+        SearchComponent: require('./search.vue.html'),
+        newForm: require('./newForm.vue.html')
+    }
+})
+
 export default class FetchDataComponent extends Vue {
-    forecasts: WeatherForecast[] = [];
+    detailPages: DetailPage[] = [];
+    columns = [
+        {
+            type: 'selection',
+            width: 60,
+            align: 'center'
+        },
+        {
+            type: 'index',
+            width: 60,
+            align: 'center'
+        },
+        {
+            title: '名称',
+            key: 'name',
+            sortable: true
+        },
+        {
+            title: '内容',
+            key: 'htmlContent'
+        },
+        {
+            title: '链接',
+            key: 'url'
+        },
+        {
+            title: '备注',
+            key: 'remark'
+        }
+    ];
+    loading = true;
+
+
+    makeDialogShow():void{
+        this.$store.dispatch('makeDialogShow', true);
+    }
 
     mounted() {
-        fetch('api/SampleData/WeatherForecasts')
-            .then(response => response.json() as Promise<WeatherForecast[]>)
+        fetch('api/DetailPageData/DetailPages')
+            .then(response => response.json() as Promise<DetailPage[]>)
             .then(data => {
-                this.forecasts = data;
+                this.detailPages = data;
+                this.loading = false;
             });
-    }
+    };
+
 }
+
