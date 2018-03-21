@@ -25,7 +25,7 @@ namespace DetailPage.Controllers
         }
         
         [HttpPost("[action]")]
-        public async Task<ResponseResultViewModel> Create([Bind("Name,ProductNo,HtmlContent,Remark")] DetailPageModel detailPageModel)
+        public async Task<ResponseResultViewModel> Create([FromBody][Bind("Name,ProductNo,HtmlContent,Remark")] DetailPageModel detailPageModel)
         {
             var responseResult = new ResponseResultViewModel();
             try
