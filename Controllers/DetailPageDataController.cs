@@ -23,9 +23,10 @@ namespace DetailPage.Controllers
         {
             return await _detailPageContext.DetailPages.ToListAsync();
         }
-        
+
         [HttpPost("[action]")]
-        public async Task<ResponseResultViewModel> Create([FromBody][Bind("Name,ProductNo,HtmlContent,Remark")] DetailPageModel detailPageModel)
+        public async Task<ResponseResultViewModel> Create([FromBody] [Bind("Name,ProductNo,HtmlContent,Remark")]
+            DetailPageModel detailPageModel)
         {
             var responseResult = new ResponseResultViewModel();
             try
@@ -43,10 +44,59 @@ namespace DetailPage.Controllers
                     responseResult.Message = "提交的数据有问题";
                 }
             }
-            catch (DbUpdateException  e)
+            catch (DbUpdateException e)
             {
-                responseResult.IsSuccess = false ;
+                responseResult.IsSuccess = false;
                 responseResult.Message = "保存失败";
+            }
+
+            return responseResult;
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ResponseResultViewModel> Delete(int id)
+        {
+            var responseResult = new ResponseResultViewModel();
+            try
+            {
+                DetailPageModel detailPageModel = new DetailPageModel() {ID = id};
+                _detailPageContext.Entry(detailPageModel).State = EntityState.Deleted;
+                await _detailPageContext.SaveChangesAsync();
+                responseResult.IsSuccess = true;
+                responseResult.Message = "删除成功";
+            }
+            catch (DbUpdateException e)
+            {
+                responseResult.IsSuccess = false;
+                responseResult.Message = "删除失败";
+            }
+
+            return responseResult;
+        }
+
+        [HttpPost("[action]")]
+        public async Task<ResponseResultViewModel> Edit(int id,
+            [FromBody] [Bind("ID,Name,ProductNo,HtmlContent,Remark")]
+            DetailPageModel detailPageModel)
+        {
+            
+            var responseResult = new ResponseResultViewModel();
+            if (id!= detailPageModel.ID)
+            {
+                responseResult.IsSuccess = false;
+                responseResult.Message = "没有找到数据";
+            }
+            try
+            {
+                _detailPageContext.Update(detailPageModel);
+                await _detailPageContext.SaveChangesAsync();
+                responseResult.IsSuccess = true;
+                responseResult.Message = "更新成功";
+            }
+            catch (DbUpdateException e)
+            {
+                responseResult.IsSuccess = false;
+                responseResult.Message = "更新失败";
             }
 
             return responseResult;

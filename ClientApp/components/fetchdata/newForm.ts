@@ -8,14 +8,14 @@ import {ResponseResult} from "../../models/ResponseResult";
 
 export default class newForm extends Vue {
 
-    detailPage: DetailPage = {
-        id: 0,
-        name: '',
-        productNo: '',
-        htmlContent: '',
-        remark: '',
-        url: ''
-    };
+    // detailPage: DetailPage = {
+    //     id: 0,
+    //     name: '',
+    //     productNo: '',
+    //     htmlContent: '',
+    //     remark: '',
+    //     url: ''
+    // };
 
     isLoading: boolean = false;
 
@@ -31,6 +31,14 @@ export default class newForm extends Vue {
         ]
     };
 
+    get isEdit(): boolean {
+        return this.$store.state.isEdit;
+    }
+
+    get detailPage(): DetailPage {
+        return this.$store.state.currentDetailPage;
+    }
+
     get showDialog() {
         return this.$store.state.showDialog
     };
@@ -40,56 +48,75 @@ export default class newForm extends Vue {
     }
 
     ok(name: any) {
-        let flag = true;
         this.isLoading = true;
         (<Vue>this.$refs[name]).validate((valid: boolean) => {
-            flag = valid;
-        });
-        if (flag) {
-            //保存到数据库
-            fetch('api/DetailPageData/Create', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(this.detailPage)
-            }).then(response => response.json() as Promise<ResponseResult>)
-                .then(data => {
+            if (valid) {
+                let url = ``;
+                if (this.isEdit) {
+                    url = `api/DetailPageData/Edit?id=${this.detailPage.id}`
+                } else {
+                    url = 'api/DetailPageData/Create';
+                }
+                console.log(this.isEdit);
+                console.log(url);
+                //保存到数据库
+                fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(this.detailPage)
+                }).then(response => response.json() as Promise<ResponseResult>)
+                    .then(data => {
 
-                    if (data.isSuccess) {
-                        iview.Notice.success({
-                            title: '提示',
-                            desc: '保存成功'
-                        });
-                        this.makeDialogShow(false);
-                    } else {
-                        iview.Notice.error({
-                            title: '提示',
-                            desc: '保存失败'
-                        });
-                    }
+                        if (data.isSuccess) {
+                            iview.Notice.success({
+                                title: '提示',
+                                desc: '保存成功'
+                            });
+                            this.makeDialogShow(false);
+                            //目的是保存之后清空表单中的内容
+                            let page: DetailPage = {
+                                id: this.detailPage.id,
+                                name: this.detailPage.name,
+                                productNo: this.detailPage.productNo,
+                                htmlContent: this.detailPage.htmlContent,
+                                remark: this.detailPage.remark,
+                                url: this.detailPage.url
+                            };
+                            if(this.isEdit){
+                                // console.log(page);
+                                this.$store.dispatch("updateDetailPage", page);
+                            }else{
+                                this.$store.dispatch("addDetailPage", page);
+                            }
+                            
+                            this.$store.dispatch("resetCurrentDetailPage");
+                        } else {
+                            iview.Notice.error({
+                                title: '提示',
+                                desc: '保存失败'
+                            });
+                        }
 
+                        this.isLoading = false;
+
+                    }).catch(err => {
+                    iview.Notice.error({
+                        title: '提示',
+                        desc: '保存失败'
+                    });
                     this.isLoading = false;
-
-                }).catch(err => {
-                iview.Notice.error({
-                    title: '提示',
-                    desc: '保存失败'
                 });
+
+            } else {
                 this.isLoading = false;
-            });
-
-        } else {
-            this.isLoading = false;
-        }
-
+            }
+        });
     }
 
     cancel() {
-        // this.$Message.info('Clicked cancel');
-        console.log("close...");
         this.makeDialogShow(false);
-        // iview.Message.info('Clicked cancel')
     }
 
     onVisibleChange(visible: boolean) {

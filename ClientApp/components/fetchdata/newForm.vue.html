@@ -1,8 +1,8 @@
 <template>
     <Modal
             v-model="showDialog"
-            title="新增" @on-visible-change="onVisibleChange">
-     
+            title="新增" @on-visible-change="onVisibleChange" :mask-closable="false">
+
         <Form ref="detailPage" :model="detailPage" :label-width="80" :rules="ruleValidate">
             <FormItem label="名称" prop="name">
                 <Input v-model="detailPage.name" placeholder="请输入名称"/>
@@ -21,7 +21,7 @@
         </Form>
 
         <div slot="footer">
-            <Button type="default"  @click="cancel">取消</Button>
+            <Button type="default" @click="cancel">取消</Button>
             <Button type="primary" :loading="isLoading" @click="ok('detailPage')">确定</Button>
         </div>
     </Modal>
