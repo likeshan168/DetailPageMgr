@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using DetailPage.Models;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,17 +13,49 @@ namespace DetailPage.Controllers
     [Route("api/[controller]")]
     public class DetailPageDataController : Controller
     {
-        private DetailPageContext _detailPageContext;
+        private readonly DetailPageContext _detailPageContext;
+        private readonly IHostingEnvironment _hostingEnvironment;
 
-        public DetailPageDataController(DetailPageContext detailPageContext)
+        public DetailPageDataController(DetailPageContext detailPageContext, IHostingEnvironment hostingEnvironment)
         {
             _detailPageContext = detailPageContext;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet("[action]")]
         public async Task<IEnumerable<DetailPageModel>> DetailPages()
         {
-            return await _detailPageContext.DetailPages.ToListAsync();
+            var list = await _detailPageContext.DetailPages.ToListAsync();
+            foreach (var detailPageModel in list)
+            {
+                //获取图片文件
+                var masterPath = Path.Combine(_hostingEnvironment.WebRootPath,
+                    $"Uploads/Master/{detailPageModel.ProductNo}");
+                var detailPath = Path.Combine(_hostingEnvironment.WebRootPath,
+                    $"Uploads/Detail/{detailPageModel.ProductNo}");
+
+                if (Directory.Exists(masterPath))
+                {
+                    var files = Directory.GetFiles(masterPath);
+                    detailPageModel.MasterImages = new List<string>();
+                    foreach (var file in files)
+                    {
+                        detailPageModel.MasterImages.Add(Path.GetFileName(file));
+                    }
+                }
+
+                if (Directory.Exists(detailPath))
+                {
+                    var files = Directory.GetFiles(detailPath);
+                    detailPageModel.DetailImages = new List<string>();
+                    foreach (var file in files)
+                    {
+                        detailPageModel.DetailImages.Add(Path.GetFileName(file));
+                    }
+                }
+            }
+
+            return list;
         }
 
         [HttpPost("[action]")]
@@ -79,13 +113,13 @@ namespace DetailPage.Controllers
             [FromBody] [Bind("ID,Name,ProductNo,HtmlContent,Remark")]
             DetailPageModel detailPageModel)
         {
-            
             var responseResult = new ResponseResultViewModel();
-            if (id!= detailPageModel.ID)
+            if (id != detailPageModel.ID)
             {
                 responseResult.IsSuccess = false;
                 responseResult.Message = "没有找到数据";
             }
+
             try
             {
                 _detailPageContext.Update(detailPageModel);

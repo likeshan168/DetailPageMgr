@@ -1,0 +1,40 @@
+<template>
+    <div>
+        <div class="upload-list" v-for="item in uploadList">
+            <template v-if="item.status === 'finished'">
+                <img :src="item.url">
+                <div class="upload-list-cover">
+                    <Icon type="ios-eye-outline" @click.native="handleView(item.name)"></Icon>
+                    <Icon type="ios-trash-outline" @click.native="handleRemove(item)"></Icon>
+                </div>
+            </template>
+            <template v-else>
+                <Progress v-if="item.showProgress" :percent="item.percentage" hide-info></Progress>
+            </template>
+        </div>
+        <Upload
+                ref="upload"
+                :show-upload-list="false"
+                :default-file-list="dList"
+                :on-success="handleSuccess"
+                :format="['jpg','jpeg','png','gif']"
+                :max-size="2048*4"
+                :on-format-error="handleFormatError"
+                :on-exceeded-size="handleMaxSize"
+                :before-upload="handleBeforeUpload"
+                multiple
+                type="drag"
+                :action="'api/UploadImage/Post?productNo='+row.productNo"
+                style="display: inline-block;width:58px;">
+            <div style="width: 58px;height:58px;line-height: 58px;">
+                <Icon type="camera" size="20"></Icon>
+            </div>
+        </Upload>
+        <Modal title="View Image" v-model="visible">
+            <img :src="imgName" v-if="visible" style="width: 100%">
+        </Modal>
+    </div>
+</template>
+
+<script src="./uploadImage.ts"></script>
+<style src="./uploadImage.css"/>

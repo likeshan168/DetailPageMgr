@@ -5,4 +5,6 @@ export interface DetailPage {
     htmlContent: string;
     url: string;
     remark: string;
+    masterImages: string[];
+    detailImages: string[];
 }

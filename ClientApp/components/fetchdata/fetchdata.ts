@@ -4,17 +4,46 @@ import {mapActions} from 'vuex';
 import {DetailPage} from "../../models/DetailPage";
 import iview from 'iview';
 import {ResponseResult} from "../../models/ResponseResult";
+import uploadImage from './uploadImage';
 
 @Component({
     components: {
         SearchComponent: require('./search.vue.html'),
-        newForm: require('./newForm.vue.html')
+        newForm: require('./newForm.vue.html'),
+        uploadImage: require('./uploadImage.vue.html')
     }
 })
 
 export default class FetchDataComponent extends Vue {
     // detailPages: DetailPage[] = [];
     columns = [
+        {
+            type: 'expand',
+            width: 50,
+            render: (h: any, params: any) => {
+                let details = params.row.detailImages as string[];
+                let arr: object[] = [];
+                if (details != null) {
+                    details.forEach(p => {
+                        arr.push({
+                            name: p,
+                            url: `Uploads/Detail/${params.row.productNo}/${p}`
+                        })
+                    });
+                }
+                return h(uploadImage, {
+                    props: {
+                        row: params.row,
+                        defaultDetailList: arr
+                    },
+                    on: {
+                        click: () => {
+                            console.log(params.row);
+                        }
+                    }
+                })
+            }
+        },
         {
             type: 'selection',
             width: 60,
@@ -61,11 +90,6 @@ export default class FetchDataComponent extends Vue {
                         },
                         style: {
                             marginRight: '5px'
-                        },
-                        on: {
-                            click: () => {
-                                // this.show(params.index)
-                            }
                         }
                     }, '预览'),
                     h('Button', {
@@ -108,8 +132,12 @@ export default class FetchDataComponent extends Vue {
             }
         }
     ];
-    // loading = true;
 
+    // loading = true;
+    expandrow(row: any, status: any) {
+        // console.log(row);
+        // console.log(status);
+    }
 
     makeDialogShow(value: boolean): void {
         this.$store.dispatch('changeEditStatus', value);
@@ -124,18 +152,18 @@ export default class FetchDataComponent extends Vue {
         this.$store.dispatch("deleteDetailPage", id);
     }
 
-    getData():void{
+    getData(): void {
         this.$store.dispatch("getDetailPages");
     }
-    
-    get detailPages(){
+
+    get detailPages() {
         return this.$store.state.detailPages;
     }
-    
-    get loading(){
+
+    get loading() {
         return this.$store.state.loadingData;
     }
-    
+
     mounted() {
         this.getData();
     };

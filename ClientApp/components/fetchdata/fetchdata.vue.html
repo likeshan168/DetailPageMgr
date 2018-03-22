@@ -37,7 +37,7 @@
         <Row class="row">&nbsp;</Row>
         <Row>
             <Table :loading="loading" highlight-row ref="currentRowTable" :columns="columns"
-                   :data="detailPages"></Table>
+                   :data="detailPages" @on-expand="expandrow"></Table>
         </Row>
         <new-form></new-form>
     </div>

@@ -82,15 +82,17 @@ export default class newForm extends Vue {
                                 productNo: this.detailPage.productNo,
                                 htmlContent: this.detailPage.htmlContent,
                                 remark: this.detailPage.remark,
-                                url: this.detailPage.url
+                                url: this.detailPage.url,
+                                masterImages: this.detailPage.masterImages,
+                                detailImages: this.detailPage.detailImages
                             };
-                            if(this.isEdit){
+                            if (this.isEdit) {
                                 // console.log(page);
                                 this.$store.dispatch("updateDetailPage", page);
-                            }else{
+                            } else {
                                 this.$store.dispatch("addDetailPage", page);
                             }
-                            
+
                             this.$store.dispatch("resetCurrentDetailPage");
                         } else {
                             iview.Notice.error({
