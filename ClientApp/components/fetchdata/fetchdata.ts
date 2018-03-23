@@ -22,7 +22,9 @@ export default class FetchDataComponent extends Vue {
             width: 50,
             render: (h: any, params: any) => {
                 let details = params.row.detailImages as string[];
+                let masters = params.row.masterImages as string[];
                 let arr: object[] = [];
+                let masterArr: object[] = [];
                 if (details != null) {
                     details.forEach(p => {
                         arr.push({
@@ -31,10 +33,19 @@ export default class FetchDataComponent extends Vue {
                         })
                     });
                 }
+                if (masters != null) {
+                    masters.forEach(p => {
+                        masterArr.push({
+                            name: p,
+                            url: `Uploads/Master/${params.row.productNo}/${p}`
+                        })
+                    });
+                }
                 return h(uploadImage, {
                     props: {
                         row: params.row,
-                        defaultDetailList: arr
+                        defaultDetailList: arr,
+                        defaultMasterList: masterArr
                     },
                     on: {
                         click: () => {
@@ -122,7 +133,7 @@ export default class FetchDataComponent extends Vue {
                                     title: '提示',
                                     content: '<p>确认删除吗</p>',
                                     onOk: () => {
-                                        this.delete(params.row.id);
+                                        this.delete(params.row);
                                     }
                                 });
                             }
@@ -148,8 +159,8 @@ export default class FetchDataComponent extends Vue {
 
     }
 
-    delete(id: number): void {
-        this.$store.dispatch("deleteDetailPage", id);
+    delete(detailPage: DetailPage): void {
+        this.$store.dispatch("deleteDetailPage", detailPage);
     }
 
     getData(): void {

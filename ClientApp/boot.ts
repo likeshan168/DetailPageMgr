@@ -45,25 +45,25 @@ let store = new Store({
             state.loadingData = value;
         },
         updateDetailPage(state, value) {
-           let dps = (state.detailPages as DetailPage[]).filter(p => p.id == value.id);
-           if(dps && dps.length){
-               dps[0].name = value.name;
-               dps[0].remark = value.remark;
-               dps[0].htmlContent = value.htmlContent;
-               dps[0].productNo = value.productNo;
-               dps[0].url = value.url;
-           }
+            let dps = (state.detailPages as DetailPage[]).filter(p => p.id == value.id);
+            if (dps && dps.length) {
+                dps[0].name = value.name;
+                dps[0].remark = value.remark;
+                dps[0].htmlContent = value.htmlContent;
+                dps[0].productNo = value.productNo;
+                dps[0].url = value.url;
+            }
         },
-        changeEditStatus(state, value){
+        changeEditStatus(state, value) {
             state.isEdit = value;
         },
-        resetCurrentDetailPage(state){
+        resetCurrentDetailPage(state) {
             state.currentDetailPage.name = '';
             state.currentDetailPage.productNo = '';
             state.currentDetailPage.htmlContent = '';
             state.currentDetailPage.remark = '';
         },
-        setCurrentDetailPage(state, value){
+        setCurrentDetailPage(state, value) {
             state.currentDetailPage = value;
         }
     },
@@ -83,9 +83,9 @@ let store = new Store({
                     commit('changeLoadingStatus', false)
                 });
         },
-        deleteDetailPage({commit, state}, id) {
+        deleteDetailPage({commit, state}, detailPage) {
             state.loadingData = true;
-            fetch(`api/DetailPageData/Delete/?id=${id}`, {
+            fetch(`api/DetailPageData/Delete/?id=${detailPage.id}&productNo=${detailPage.productNo}`, {
                 method: 'POST'
             }).then(response => response.json() as Promise<ResponseResult>)
                 .then(data => {
@@ -104,13 +104,13 @@ let store = new Store({
         updateDetailPage({commit, state}, detailPage) {
             commit('updateDetailPage', detailPage);
         },
-        changeEditStatus({commit, state}, value){
+        changeEditStatus({commit, state}, value) {
             commit('changeEditStatus', value);
         },
-        resetCurrentDetailPage({commit, state}){
+        resetCurrentDetailPage({commit, state}) {
             commit('resetCurrentDetailPage');
         },
-        setCurrentDetailPage({commit, state}, detailPage){
+        setCurrentDetailPage({commit, state}, detailPage) {
             commit('setCurrentDetailPage', detailPage);
         }
     }

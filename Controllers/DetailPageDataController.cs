@@ -25,7 +25,7 @@ namespace DetailPage.Controllers
         [HttpGet("[action]")]
         public async Task<IEnumerable<DetailPageModel>> DetailPages()
         {
-            var list = await _detailPageContext.DetailPages.ToListAsync();
+            var list = await _detailPageContext.DetailPages.AsNoTracking().ToListAsync();
             foreach (var detailPageModel in list)
             {
                 //获取图片文件
@@ -88,7 +88,7 @@ namespace DetailPage.Controllers
         }
 
         [HttpPost("[action]")]
-        public async Task<ResponseResultViewModel> Delete(int id)
+        public async Task<ResponseResultViewModel> Delete(int id, string productNo)
         {
             var responseResult = new ResponseResultViewModel();
             try
@@ -96,6 +96,27 @@ namespace DetailPage.Controllers
                 DetailPageModel detailPageModel = new DetailPageModel() {ID = id};
                 _detailPageContext.Entry(detailPageModel).State = EntityState.Deleted;
                 await _detailPageContext.SaveChangesAsync();
+                //删除图片
+                var detailPath = Path.Combine(_hostingEnvironment.WebRootPath,
+                    $"Uploads/Detail/{productNo}");
+                var masterPath = Path.Combine(_hostingEnvironment.WebRootPath,
+                    $"Uploads/Master/{productNo}");
+                if (Directory.Exists(detailPath))
+                {
+                    foreach (var file in Directory.GetFiles(detailPath))
+                    {
+                        System.IO.File.Delete(file);
+                    }
+                }
+
+                if (Directory.Exists(masterPath))
+                {
+                    foreach (var file in Directory.GetFiles(masterPath))
+                    {
+                        System.IO.File.Delete(file);
+                    }
+                }
+                
                 responseResult.IsSuccess = true;
                 responseResult.Message = "删除成功";
             }

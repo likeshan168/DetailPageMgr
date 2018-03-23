@@ -53,6 +53,7 @@
         <e p="HomeController.cs" t="Include" />
         <e p="SampleDataController.cs" t="Include" />
         <e p="UploadImageController.cs" t="Include" />
+        <e p="UploadMasterImageController.cs" t="Include" />
       </e>
       <e p="DetailPage.csproj" t="IncludeRecursive" />
       <e p="DetailPage.sln" t="IncludeFlat" />
@@ -122,16 +123,10 @@
         <e p="favicon.ico" t="Include" />
         <e p="Uploads" t="Include">
           <e p="Detail" t="Include">
-            <e p="245234jack" t="Include">
-              <e p="245234jack_detail_20180322234327309.jpg" t="Include" />
-              <e p="245234jack_detail_20180322234328956.png" t="Include" />
-              <e p="245234jack_detail_20180322234332672.jpg" t="Include" />
-              <e p="245234jack_detail_20180322234332698.jpg" t="Include" />
-              <e p="245234jack_detail_20180322234332721.jpg" t="Include" />
-              <e p="245234jack_detail_20180322234332727.jpg" t="Include" />
-              <e p="245234jack_detail_20180322234332741.jpg" t="Include" />
-              <e p="245234jack_detail_20180322234332747.jpg" t="Include" />
-            </e>
+            <e p="245234jack" t="Include" />
+          </e>
+          <e p="Master" t="Include">
+            <e p="245234jack" t="Include" />
             <e p="2565436536" t="Include" />
           </e>
         </e>
