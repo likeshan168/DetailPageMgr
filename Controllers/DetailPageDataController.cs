@@ -30,7 +30,7 @@ namespace DetailPage.Controllers
             List<DetailPageModel> list ;
             if (string.IsNullOrWhiteSpace(pageModel.SearchWord))
             {
-                list = await _detailPageContext.DetailPages
+                list = await _detailPageContext.DetailPages.OrderBy(p=>p.ID)
                     .Skip((pageModel.PageNumber - 1) * pageModel.PageSize)
                     .Take(pageModel.PageSize)
                     .AsNoTracking().ToListAsync();
@@ -38,7 +38,7 @@ namespace DetailPage.Controllers
             }
             else
             {
-                list = await _detailPageContext.DetailPages
+                list = await _detailPageContext.DetailPages.OrderBy(p=>p.ID)
                     .Where(p => p.ProductNo.Contains(pageModel.SearchWord) || 
                                 p.Name.Contains(pageModel.SearchWord) ||
                                 p.HtmlContent.Contains(pageModel.SearchWord))

@@ -47,6 +47,11 @@ export default new Store({
         addData(state, value) {
             state.page.data.push(value);
         },
+        deleteData(state, value){
+            // state.page.data.push(value);
+           let index = state.page.data.indexOf(value);
+           state.page.data.splice(index,1);
+        },
         changeLoadingStatus(state, value) {
             state.loadingData = value;
         },
@@ -101,18 +106,27 @@ export default new Store({
         deleteDetailPage({commit, state}, detailPage) {
             state.loadingData = true;
             fetch(`api/DetailPageData/Delete/?id=${detailPage.id}&productNo=${detailPage.productNo}`, {
-                method: 'POST'
+                method: 'POST',
+                headers: {
+                    'HeaderAuthorization': VueCookie.get('auth_token')
+                },
             }).then(response => response.json() as Promise<ResponseResult>)
                 .then(data => {
                     if (data.isSuccess) {
                         // this.$store.state.dispatch("getDetailPages");
-                        iview.Message.error(data.message);
+                        //删除前端的数据
+                        commit('deleteData', detailPage);
+                        state.loadingData = false;
+                        iview.Message.info(data.message);
                     } else {
                         // this.loading = false;
                         state.loadingData = false;
                         iview.Message.error(data.message);
                     }
-                });
+                }).catch(err=>{
+                state.loadingData = false;
+                iview.Message.error("删除失败");
+            });
         },
         addDetailPage({commit, state}, detailPage) {
             commit('addData', detailPage);

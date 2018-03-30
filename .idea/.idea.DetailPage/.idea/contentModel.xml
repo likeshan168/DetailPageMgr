@@ -176,22 +176,10 @@
         </e>
         <e p="Uploads" t="Include">
           <e p="Detail" t="Include">
-            <e p="2565436536" t="Include">
-              <e p="2565436536_detail_20180325181215103.jpg" t="Include" />
-              <e p="2565436536_detail_20180325181352913.jpg" t="Include" />
-              <e p="2565436536_detail_20180325181355121.jpg" t="Include" />
-              <e p="2565436536_detail_20180325181359266.jpg" t="Include" />
-              <e p="2565436536_detail_20180325181359284.jpg" t="Include" />
-            </e>
+            <e p="2565436536" t="Include" />
           </e>
           <e p="Master" t="Include">
-            <e p="2565436536" t="Include">
-              <e p="2565436536_master_20180323142709945.jpg" t="Include" />
-              <e p="2565436536_master_20180323142709946.jpg" t="Include" />
-              <e p="2565436536_master_20180323142709993.jpg" t="Include" />
-              <e p="2565436536_master_20180323142723312.gif" t="Include" />
-              <e p="2565436536_master_20180323142726142.jpg" t="Include" />
-            </e>
+            <e p="2565436536" t="Include" />
           </e>
         </e>
       </e>
