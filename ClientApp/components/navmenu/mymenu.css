@@ -15,6 +15,17 @@
     top: 15px;
     left: 20px;
 }
+
+.layout-user{
+    /*width: 100px;*/
+    /*height: 30px;*/
+    /*background: #5b6270;*/
+    /*border-radius: 3px;*/
+    float: right;
+    position: relative;
+    /*top: 15px;*/
+    /*right: 10px;*/
+}
 .layout-nav{
     width: 420px;
     margin: 0 auto;

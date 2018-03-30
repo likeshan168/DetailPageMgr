@@ -8,6 +8,7 @@ namespace DetailPage.Models
         public DetailPageContext(DbContextOptions<DetailPageContext> options):base(options)
         {}
         public DbSet<DetailPageModel> DetailPages { get; set; }
+        public DbSet<UserModel> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

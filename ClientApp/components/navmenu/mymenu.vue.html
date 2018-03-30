@@ -1,16 +1,16 @@
 <!--<template>-->
-    <!--<Menu theme="light" active-name="1" class="mymenu">-->
-        <!--<MenuGroup title="详情页管理">-->
-            <!--<MenuItem name="1">-->
-                <!--<Icon type="document-text"></Icon>-->
-                <!--详情页列表-->
-            <!--</MenuItem>-->
-            <!--<MenuItem name="2">-->
-                <!--<Icon type="chatbubbles"></Icon>-->
-                <!--评论管理-->
-            <!--</MenuItem>-->
-        <!--</MenuGroup>-->
-    <!--</Menu>-->
+<!--<Menu theme="light" active-name="1" class="mymenu">-->
+<!--<MenuGroup title="详情页管理">-->
+<!--<MenuItem name="1">-->
+<!--<Icon type="document-text"></Icon>-->
+<!--详情页列表-->
+<!--</MenuItem>-->
+<!--<MenuItem name="2">-->
+<!--<Icon type="chatbubbles"></Icon>-->
+<!--评论管理-->
+<!--</MenuItem>-->
+<!--</MenuGroup>-->
+<!--</Menu>-->
 <!--</template>-->
 
 <template>
@@ -19,27 +19,40 @@
             <Header>
                 <Menu mode="horizontal" theme="dark" active-name="1">
                     <div class="layout-logo"></div>
-                   
+                    <div class="layout-user">
+                        <a href="javascript:void(0)" title="退出" @click="logout">
+                            <Avatar style="background-color: #87d068" icon="person"/>
+                        </a>
+                    </div>
                 </Menu>
             </Header>
             <Layout>
                 <Sider hide-trigger :style="{background: '#fff'}">
-                    <Menu active-name="1-1" theme="light" width="auto" :open-names="['1']">
-                        <Submenu name="1">
+                    <Menu active-name="1-1" theme="light" width="auto" :open-names="['2']">
+                        <MenuItem name="1-1">
+                            <router-link to="/">
+                                <Icon type="home"></Icon>
+                                主页
+                            </router-link>
+                        </MenuItem>
+                        <Submenu name="2">
                             <template slot="title">
                                 <Icon type="ios-navigate"></Icon>
                                 详情页管理
                             </template>
-                            <MenuItem name="1-1">详情页列表</MenuItem>
+
+                            <MenuItem name="1-2">
+                                <router-link to="/fetchdata">详情页列表</router-link>
+                            </MenuItem>
                         </Submenu>
-                        
+
                     </Menu>
                 </Sider>
                 <Layout :style="{padding: '0 24px 24px'}">
                     <!--<Breadcrumb :style="{margin: '24px 0'}">-->
-                        <!--<BreadcrumbItem>Home</BreadcrumbItem>-->
-                        <!--<BreadcrumbItem>Components</BreadcrumbItem>-->
-                        <!--<BreadcrumbItem>Layout</BreadcrumbItem>-->
+                    <!--<BreadcrumbItem>Home</BreadcrumbItem>-->
+                    <!--<BreadcrumbItem>Components</BreadcrumbItem>-->
+                    <!--<BreadcrumbItem>Layout</BreadcrumbItem>-->
                     <!--</Breadcrumb>-->
                     <Content :style="{padding: '24px', minHeight: '280px', background: '#fff'}">
                         <router-view></router-view>
@@ -50,4 +63,5 @@
     </div>
 </template>
 
-<style src="./mymenu.css" />
+<style src="./mymenu.css"/>
+<script src="./mymenu.ts"></script> 

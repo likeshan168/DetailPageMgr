@@ -1,13 +1,13 @@
 <template>
-    <Form ref="formInline" :model="formInline" inline>
+    <Form ref="formInline" :model="formInline" inline @submit.native.prevent="search">
         <FormItem prop="searchWords">
-            <Input type="text" v-model="formInline.searchWords" placeholder="请输入查询条件">
+            <Input type="text" v-model="searchWords" placeholder="请输入查询条件" @on-change="changed">
             <Icon type="search" slot="prepend"></Icon>
             </Input>
         </FormItem>
 
         <FormItem>
-            <Button type="primary">查询</Button>
+            <Button type="primary" @click="search">查询</Button>
         </FormItem>
     </Form>
 </template>

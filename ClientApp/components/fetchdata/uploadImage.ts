@@ -8,9 +8,12 @@ import {ResponseResult} from "../../models/ResponseResult";
 @Component
 export default class UploadImage extends Vue {
     //不要对属性进行赋值，操作也不要直接操作属性，而应该操作一个计算属性或者data中的数据（关于属性的），然后对这个计算属性/data中的数进行操作
-    @Prop() row: DetailPage;
-    @Prop() defaultDetailList: any[];
-    @Prop() defaultMasterList: any[];
+    @Prop() 
+    row!: DetailPage;
+    @Prop() 
+    defaultDetailList!: any[];
+    @Prop() 
+    defaultMasterList!: any[];
 
     //直接用defaultDetailList，页面上的图片不更新
     dList: any[] = [...this.defaultDetailList];

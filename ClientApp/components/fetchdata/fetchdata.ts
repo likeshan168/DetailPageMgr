@@ -1,21 +1,26 @@
 import Vue from 'vue';
 import {Component} from 'vue-property-decorator';
-import {mapActions} from 'vuex';
 import {DetailPage} from "../../models/DetailPage";
 import iview from 'iview';
-import {ResponseResult} from "../../models/ResponseResult";
 import uploadImage from './uploadImage';
+import VueCookie from "vue-cookies";
+import {Init} from "awesome-typescript-loader/dist/checker/protocol";
+import Response = Init.Response;
+import {Resolve} from "awesome-typescript-loader/dist/checker/checker";
+import {PageResult} from "../../models/PageResult";
 
 @Component({
     components: {
         SearchComponent: require('./search.vue.html'),
         newForm: require('./newForm.vue.html'),
-        uploadImage: require('./uploadImage.vue.html')
+        uploadImage: require('./uploadImage.vue.html'),
+        preview: require('./preview.vue.html')
     }
 })
 
 export default class FetchDataComponent extends Vue {
     // detailPages: DetailPage[] = [];
+    currentRow: object = {};
     columns = [
         {
             type: 'expand',
@@ -101,6 +106,14 @@ export default class FetchDataComponent extends Vue {
                         },
                         style: {
                             marginRight: '5px'
+                        },
+                        on: {
+                            click: () => {
+
+                                // this.$store.dispatch('setCurrentDetailPage', {...params.row});
+                                // this.$store.dispatch('makePreviewDialogShow', true);
+                                window.open('preview?productNo=' + params.row.productNo, '_blank');
+                            }
                         }
                     }, '预览'),
                     h('Button', {
@@ -144,10 +157,33 @@ export default class FetchDataComponent extends Vue {
         }
     ];
 
+    pageOpts = [5, 10, 20, 30, 40];
+
+
     // loading = true;
     expandrow(row: any, status: any) {
         // console.log(row);
         // console.log(status);
+    }
+
+    get pageSize() {
+        return this.$store.state.page.pageSize;
+    }
+
+    get currentPage() {
+        return this.$store.state.page.pageNumber;
+    }
+
+    get totalCount() {
+        return this.$store.state.page.total;
+    }
+
+    get detailPages() {
+        return this.$store.state.page.data;
+    }
+
+    get user() {
+        return this.$store.state.currentUser;
     }
 
     makeDialogShow(value: boolean): void {
@@ -155,24 +191,51 @@ export default class FetchDataComponent extends Vue {
         this.$store.dispatch('makeDialogShow', true);
     }
 
-    preview(id: number): void {
-
-    }
+    // preview(id: number): void {
+    //
+    // }
 
     delete(detailPage: DetailPage): void {
         this.$store.dispatch("deleteDetailPage", detailPage);
     }
 
     getData(): void {
-        this.$store.dispatch("getDetailPages");
-    }
-
-    get detailPages() {
-        return this.$store.state.detailPages;
+        // this.$store.dispatch("getDetailPages");
+        fetch('api/DetailPageData/DetailPages', {
+            headers: {
+                'HeaderAuthorization': VueCookie.get('auth_token'),
+                'Content-Type': 'application/json'
+            },
+            method: 'POST',
+            body: JSON.stringify(this.$store.state.page)
+        }).then(response => {
+            if (response.redirected) this.$router.push("/login");
+            return response.json() as Promise<PageResult>;
+        }).then(res => {
+            this.$store.dispatch('initData', res.data);
+            this.$store.dispatch('setTotal', res.total);
+            this.$store.dispatch('changeLoadingStatus', false)
+        }).catch(err => {
+            console.log(err);
+            this.$store.dispatch('changeLoadingStatus', false);
+            iview.Message.error("获取数据异常");
+        });
     }
 
     get loading() {
         return this.$store.state.loadingData;
+    }
+
+    onPageChange(pageNumber: number) {
+        console.log(pageNumber);
+        this.$store.dispatch('setPageNumber', pageNumber);
+        this.getData();
+    }
+
+    onSizeChange(pageSize: number) {
+        console.log(pageSize);
+        this.$store.dispatch('setPageSize', pageSize);
+        this.getData();
     }
 
     mounted() {

@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "devDependencies": {
     "@types/webpack-env": "^1.13.0",
+    "@types/node": "^9.6.1",
     "aspnet-webpack": "^2.0.1",
     "awesome-typescript-loader": "^3.0.0",
     "bootstrap": "^3.3.6",
@@ -24,6 +25,7 @@
     "webpack": "^2.2.0",
     "webpack-hot-middleware": "^2.12.2",
     "iview": "^2.11.0",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "vue-cookies": "^1.5.6"
   }
 }

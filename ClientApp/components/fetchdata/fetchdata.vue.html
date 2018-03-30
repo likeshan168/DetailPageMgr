@@ -38,8 +38,14 @@
         <Row>
             <Table :loading="loading" highlight-row ref="currentRowTable" :columns="columns"
                    :data="detailPages" @on-expand="expandrow"></Table>
+           
         </Row>
+        <Row>&nbsp;
+            <Page :total="totalCount" size="small" :page-size="pageSize" :current="currentPage" :page-size-opts="pageOpts" show-elevator show-sizer :transfer="true" @on-change="onPageChange" @on-page-size-change="onSizeChange"></Page>
+        </Row>
+        
         <new-form></new-form>
+        <preview :row="currentRow"></preview>
     </div>
     
 </template>

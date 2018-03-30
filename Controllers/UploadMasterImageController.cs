@@ -5,6 +5,7 @@ using System.IO;
 using System.Net;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
+using DetailPage.Common;
 using DetailPage.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -13,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace DetailPage.Controllers
 {
     [Route("api/[controller]")]
+    [ValidationFilter]
     public class UploadMasterImageController : Controller
     {
         private readonly IHostingEnvironment _hostingEnvironment;
@@ -20,6 +22,7 @@ namespace DetailPage.Controllers
         public UploadMasterImageController(IHostingEnvironment hostingEnvironment)
         {
             _hostingEnvironment = hostingEnvironment;
+//            HttpContext.User
         }
 
         [HttpPost("[action]")]

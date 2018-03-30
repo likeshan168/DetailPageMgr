@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DetailPage.Common;
 using DetailPage.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DetailPage.Controllers
 {
     [Route("api/[controller]")]
+    [ValidationFilter]
     public class DetailPageDataController : Controller
     {
         private readonly DetailPageContext _detailPageContext;
@@ -22,10 +24,33 @@ namespace DetailPage.Controllers
             _hostingEnvironment = hostingEnvironment;
         }
 
-        [HttpGet("[action]")]
-        public async Task<IEnumerable<DetailPageModel>> DetailPages()
+        [HttpPost("[action]")]
+        public async Task<PageModel> DetailPages([FromBody] PageModel pageModel)
         {
-            var list = await _detailPageContext.DetailPages.AsNoTracking().ToListAsync();
+            List<DetailPageModel> list ;
+            if (string.IsNullOrWhiteSpace(pageModel.SearchWord))
+            {
+                list = await _detailPageContext.DetailPages
+                    .Skip((pageModel.PageNumber - 1) * pageModel.PageSize)
+                    .Take(pageModel.PageSize)
+                    .AsNoTracking().ToListAsync();
+                pageModel.Total = _detailPageContext.DetailPages.Count();
+            }
+            else
+            {
+                list = await _detailPageContext.DetailPages
+                    .Where(p => p.ProductNo.Contains(pageModel.SearchWord) || 
+                                p.Name.Contains(pageModel.SearchWord) ||
+                                p.HtmlContent.Contains(pageModel.SearchWord))
+                    .Skip((pageModel.PageNumber - 1) * pageModel.PageSize)
+                    .Take(pageModel.PageSize)
+                    .AsNoTracking().ToListAsync();
+                pageModel.Total = _detailPageContext.DetailPages.Count(p => p.ProductNo.Contains(pageModel.SearchWord) || 
+                                p.Name.Contains(pageModel.SearchWord) ||
+                                p.HtmlContent.Contains(pageModel.SearchWord));
+            }
+
+           
             foreach (var detailPageModel in list)
             {
                 //获取图片文件
@@ -55,7 +80,9 @@ namespace DetailPage.Controllers
                 }
             }
 
-            return list;
+            pageModel.Data = list;
+
+            return pageModel;
         }
 
         [HttpPost("[action]")]
@@ -116,7 +143,7 @@ namespace DetailPage.Controllers
                         System.IO.File.Delete(file);
                     }
                 }
-                
+
                 responseResult.IsSuccess = true;
                 responseResult.Message = "删除成功";
             }
@@ -155,6 +182,53 @@ namespace DetailPage.Controllers
             }
 
             return responseResult;
+        }
+
+        [HttpPost("[action]")]
+        public async Task<IEnumerable<DetailPageModel>> Search(string searchWord)
+        {
+            List<DetailPageModel> list;
+            if (string.IsNullOrWhiteSpace(searchWord))
+            {
+                list = await _detailPageContext.DetailPages.AsNoTracking().ToListAsync();
+            }
+            else
+            {
+                list = await _detailPageContext.DetailPages
+                    .Where(p => p.ProductNo.Contains(searchWord) || p.Name.Contains(searchWord) ||
+                                p.HtmlContent.Contains(searchWord)).AsNoTracking().ToListAsync();
+            }
+
+            foreach (var detailPageModel in list)
+            {
+                //获取图片文件
+                var masterPath = Path.Combine(_hostingEnvironment.WebRootPath,
+                    $"Uploads/Master/{detailPageModel.ProductNo}");
+                var detailPath = Path.Combine(_hostingEnvironment.WebRootPath,
+                    $"Uploads/Detail/{detailPageModel.ProductNo}");
+
+                if (Directory.Exists(masterPath))
+                {
+                    var files = Directory.GetFiles(masterPath);
+                    detailPageModel.MasterImages = new List<string>();
+                    foreach (var file in files)
+                    {
+                        detailPageModel.MasterImages.Add(Path.GetFileName(file));
+                    }
+                }
+
+                if (Directory.Exists(detailPath))
+                {
+                    var files = Directory.GetFiles(detailPath);
+                    detailPageModel.DetailImages = new List<string>();
+                    foreach (var file in files)
+                    {
+                        detailPageModel.DetailImages.Add(Path.GetFileName(file));
+                    }
+                }
+            }
+
+            return list;
         }
     }
 }

@@ -43,6 +43,28 @@ namespace DetailPage.Migrations
 
                     b.ToTable("DetailPage");
                 });
+
+            modelBuilder.Entity("DetailPage.Models.UserModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(100);
+
+                    b.Property<string>("Password")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("Role")
+                        .HasMaxLength(30);
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(30);
+
+                    b.HasKey("ID");
+
+                    b.ToTable("Users");
+                });
 #pragma warning restore 612, 618
         }
     }

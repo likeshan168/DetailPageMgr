@@ -1,0 +1,29 @@
+<template>
+    <!--<div class="outdiv">-->
+        <div class="centerform">
+            <h3 class="title">
+                系统登录
+            </h3>
+            <div class="loginform">
+                <Form ref="user" :model="user" :rules="rules" :label-width="80">
+                    <FormItem label="用户名" prop="userName">
+                        <Input placeholder="用户名" type="text" v-model="user.userName"/>
+                    </FormItem>
+                    <FormItem label="密码" prop="password">
+                        <Input placeholder="密码" type="password" v-model="user.password" @keyup.enter.native="handleSubmit"/>
+                    </FormItem>
+
+                    <FormItem>
+                        <Button type="primary" @click="handleSubmit">
+                            <span v-if="!logining">登录</span>
+                            <span v-else>Loading...</span></Button>
+                        <Button type="ghost" @click="handleReset('user')" style="margin-left: 8px">重置</Button>
+                    </FormItem>
+                </Form>
+            </div>
+
+        </div>
+    <!--</div>-->
+</template>
+<style src="./login.css"></style>
+<script src="./login.ts"></script> 

@@ -3,6 +3,7 @@ import {Component, Prop} from "vue-property-decorator";
 import iview from "iview";
 import {DetailPage} from "../../models/DetailPage";
 import {ResponseResult} from "../../models/ResponseResult";
+import VueCookie from "vue-cookies";
 
 @Component({})
 
@@ -40,7 +41,7 @@ export default class newForm extends Vue {
     }
 
     get showDialog() {
-        return this.$store.state.showDialog
+        return this.$store.state.showDialog;
     };
 
     makeDialogShow(value: boolean): void {
@@ -63,7 +64,8 @@ export default class newForm extends Vue {
                 fetch(url, {
                     method: 'POST',
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        'HeaderAuthorization': VueCookie.get('auth_token')
                     },
                     body: JSON.stringify(this.detailPage)
                 }).then(response => response.json() as Promise<ResponseResult>)
@@ -87,7 +89,6 @@ export default class newForm extends Vue {
                                 detailImages: this.detailPage.detailImages
                             };
                             if (this.isEdit) {
-                                // console.log(page);
                                 this.$store.dispatch("updateDetailPage", page);
                             } else {
                                 this.$store.dispatch("addDetailPage", page);
